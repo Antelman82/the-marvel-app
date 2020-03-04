@@ -16,7 +16,7 @@ filename: README.md
 ## Screenshots
 - Wireframe
 <p align="center">
-<img src='/images/wireframe-page1.png' width=200 align='center'>
+<img src='./images/wireframe-page1.png' width=200 align='center'>
 </p>
 
 > created using [https://www.canva.com/create-a-design](https://www.canva.com/create-a-design)
