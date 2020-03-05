@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
 import Axios from 'axios'
+import Tile from './Tile'
 
 class GameTiles extends Component {
-
+    // This tile state will be used when we try and do a randome iteration through the tile backgrounds so we only have two of each!!! this is kind of important for this game.
     state = {
         tile: []
     }
 
-    handleClick = (currentTile) => {
-        console.log('handleClick')
-        console.log(currentTile)
-        // console.log(currentTile)
-        // this.setState({
-        //   tile
-        // }) 
-    }
-    
     getComics(){
         Axios({
             method: 'GET',
@@ -28,14 +20,6 @@ class GameTiles extends Component {
                 apiDataLoaded: true
             })
             console.log('getComics axios')
-            // console.log(response)
-            // console.log(response.data.data.results)
-            // console.log(response.data.data.results[0].thumbnail.path)
-        // const comics = response.data.data.results[0]
-        // this.setState({ 
-        //     comics,
-        //     apiDataLoaded: true
-        //     })
             
         })
         .catch(error => {
@@ -52,38 +36,9 @@ class GameTiles extends Component {
 
     render(){
         console.log('GameTiles Component Render')
-        console.log(this.props)
-        console.log(this.props.characters.name)
-        console.log(this.props.characters.id)
-        console.log(this.state.comic)
 
-        let tiles = []
-
-        for (let i=0;i<20;i++){
-            let currentTile =  `Tile${i+1}`
-            let currentComic = (this.props.characters && this.props.characters.id)
-            let currentCharacter = (this.props.characters && this.props.characters.name)
-            let currentBackgroundImg = (this.state.comic && `${this.state.comic.thumbnail.path}.${this.state.comic.thumbnail.extension}`)
-            console.log(currentBackgroundImg)
-            tiles.push(
-                <div 
-                    className='tile' 
-                    key={i} 
-                    onClick={() => this.handleClick(currentTile)}
-                    style={{ 
-                        backgroundImage:  `url(${currentBackgroundImg})`,
-                        backgroundSize: `cover`, 
-                        backgroundPosition: `center center`
-                    }}
-                    >
-                    {currentComic}
-                    <p>{currentCharacter}</p>
-                </div>)
-        }
         return(
-            <>
-                {tiles}
-            </>
+            <Tile characters={this.props.characters} comic={this.state.comic}  />
         )
     }
 }

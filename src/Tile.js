@@ -2,13 +2,19 @@ import React, { Component } from 'react';
 import Axios from 'axios'
 
 class Tile extends Component {
+    
+    handleClick = (currentTile) => {
+        console.log('handleClick')
+        console.log(currentTile)
+
+    }
 
     render(){
         console.log('Tile Component Render')
-        console.log(this.props)
-        console.log(this.props.characters.name)
-        console.log(this.props.characters.id)
-        console.log(this.state.comic)
+        // console.log(this.props)
+        // console.log(this.props.characters.name)
+        // console.log(this.props.characters.id)
+        // console.log(this.props.comic)
 
         let tiles = []
 
@@ -16,7 +22,7 @@ class Tile extends Component {
             let currentTile =  `Tile${i+1}`
             let currentComic = (this.props.characters && this.props.characters.id)
             let currentCharacter = (this.props.characters && this.props.characters.name)
-            let currentBackgroundImg = (this.state.comic && `${this.state.comic.thumbnail.path}.${this.state.comic.thumbnail.extension}`)
+            let currentBackgroundImg = (this.props.comic && `${this.props.comic.thumbnail.path}.${this.props.comic.thumbnail.extension}`)
             console.log(currentBackgroundImg)
             tiles.push(
                 <div 
