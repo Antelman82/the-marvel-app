@@ -8,10 +8,10 @@ class GameTiles extends Component {
 
         let tiles = []
 
-        for (let i=0;i<=10;i++){
+        for (let i=0;i<20;i++){
             tiles.push(
                 <div className='tile' key={i}>
-                    {`Tile${i}`}
+                    {`Tile${i+1}`}
                     <p>{`Character Name${i}`}</p>
                 </div>)
         }

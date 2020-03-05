@@ -3,62 +3,77 @@ import './App.css';
 import Axios from 'axios'
 
 import GameTiles from './GameTiles'
-import { render } from '@testing-library/react';
-
-
+import CharacterBio from './CharacterBio'
+// import { render } from '@testing-library/react';
 class App extends Component {
 
+  state = {
+    characters: [],
+    currentChar: ''
+  }
 
-  // Axios({
-  //   method: 'GET',
-  //   url: 'https://gateway.marvel.com/v1/public/characters?limit=100&apikey=5139be72ea6869ccf8846bbbe6b562ea&ts=1583344448559&hash=dbb36e239882ffd022ece2a7987cbe80'
-  // })
-  // .then(response => {
-  //   console.log(response)
-  // })
-  // .catch(error => {
-  //   console.log(error)
-  // })
+  componentDidMount(){
+    // Axios.get(`https://gateway.marvel.com/v1/public/characters?limit=100&apikey=5139be72ea6869ccf8846bbbe6b562ea&ts=1583344448559&hash=dbb36e239882ffd022ece2a7987cbe80`)
+    //   .then(response => {
+    //     // console.log(response.data.data.results)
+    //     const characters = response.data.data.results;
+    //     this.setState({ characters });
+    //   })
 
-  
+    Axios({
+      method: 'GET',
+      url: 'https://gateway.marvel.com/v1/public/characters?limit=100&apikey=5139be72ea6869ccf8846bbbe6b562ea&ts=1583344448559&hash=dbb36e239882ffd022ece2a7987cbe80'
+    })
+    .then(response => {
+      // console.log(response.data.data.results[52])
+      // console.log(response.data.data.results[52].name)
+      const characters = response.data.data.results[52]
+      this.setState({ characters })
+      // let characterName = response.data.data.results[52].name
+      // // console.log(`${response.data.data.results[52].thumbnail.path}.${response.data.data.results[52].thumbnail.extension}`)
+      // let characterThumb = `${response.data.data.results[52].thumbnail.path}.${response.data.data.results[52].thumbnail.extension}`
+      // // console.log(response.data.data.results[52].comics.items.length)
+      // let characterComicNumber = response.data.data.results[52].comics.items.length
+      // // Character Marvel Wiki Site
+      // // console.log(response.data.data.results[52].urls[1].url)
+      // let characterWiki = response.data.data.results[52].urls[1].url
+    })
+    .catch(error => {
+      console.log(error)
+    })    
+  }
 
+   
   // console.log(makeTiles())
   render(){
-
-  // const tile = <div>{`Tiles${i}`}</div>
-
-    
-      // for (let i=0;i<=10;i++){
-      //   // return (<div>{`Tile${i}`}</div>
-      // <div>{`Tiles${i}`}</div>
-      // }
-      
+      // console.log(characterName)
+      // console.log(characterThumb)
+      // console.log(characterComicNumber)
+      // console.log(CharacterWiki)
+      console.log('render')
+      // console.log(this.state.characters)
 
     return (
       <div>
         <header className='header'>
           <h1>Marvel Match</h1>
           <nav className='nav'>
-            <li>How to play</li>
-            <li>Contact Info</li>
-            <li>Feedback</li>
+            <li><a href='#'>How to play</a></li>
+            <li><a href='#'>Contact Info</a></li>
+            <li><a href='#'>Feedback</a></li>
           </nav>
         </header>
-        <main className='main'>main
+        <main className='main'>
           <div className='game-board-container'>
             <GameTiles />
           </div>
           <aside>INFO WINDOW
-            <div>Window-State-1
+            <CharacterBio characters={this.state.characters} />
+            <div>Window-State-2
               <div>Game Status</div>
               <div>Game Statistics</div>
             </div>
-            <div>Window-State-2
-              <div>Character Info
-                <div>Info</div>
-                <div>info-details</div>
-              </div>
-            </div>
+            
           </aside>
         </main>
         <footer>footer
