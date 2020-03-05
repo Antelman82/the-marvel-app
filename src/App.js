@@ -28,18 +28,16 @@ class App extends Component {
 
     Axios({
       method: 'GET',
-      url: 'https://gateway.marvel.com/v1/public/characters?limit=100&apikey=5139be72ea6869ccf8846bbbe6b562ea&ts=1583344448559&hash=dbb36e239882ffd022ece2a7987cbe80'
+      url: 'https://gateway.marvel.com/v1/public/characters?name=Spider-Man&apikey=5139be72ea6869ccf8846bbbe6b562ea&ts=1583344448559&hash=dbb36e239882ffd022ece2a7987cbe80'
     })
     .then(response => {
-      const characters = response.data.data.results[52]
+      // console.log(response.data.data.results[0].name)
+      const characters = response.data.data.results[0]
       this.setState({ 
         characters,
         apiDataLoaded: true
       })
-
-
-      console.log('axios')
-
+      console.log('App axios')
     })
     .catch(error => {
       console.log(error)
@@ -55,7 +53,7 @@ class App extends Component {
   }
 
   render(){
-      console.log('render')
+      console.log('App Component Render')
 
     return (
       <div>
@@ -69,9 +67,9 @@ class App extends Component {
         </header>
         <main className='main'>
           <div className='game-board-container'>
-            <GameTiles />
+            {this.state.apiDataLoaded && <GameTiles characters={this.state.characters} />}
           </div>
-          <aside>INFO WINDOW
+          <aside>
             {this.state.apiDataLoaded && <CharacterBio characters={this.state.characters} />}
             {/* <div>Window-State-2
               <div>Game Status</div>

@@ -4,7 +4,7 @@ import './App.css';
 class CharacterBio extends Component {
 
   render(){
-    console.log('CharacterBio Component')
+    console.log('CharacterBio Component Render')
     
     return (
         <div>BIO
@@ -16,6 +16,10 @@ class CharacterBio extends Component {
                 <div className='bio-item'>
                     <img src={`${this.props.characters.thumbnail.path}.${this.props.characters.thumbnail.extension}`} alt='' />
                 </div>
+            </div>
+            <div className="char-description">
+                <h3 className='bio-item'>Description:</h3>
+                    <div className='bio-item'>{this.props.characters.description}</div>
             </div>
             <div className="char-name">
                 <h3 className='bio-item'>#of Comics:</h3>
