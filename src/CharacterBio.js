@@ -7,7 +7,8 @@ class CharacterBio extends Component {
     console.log('CharacterBio Component Render')
     
     return (
-        <div>BIO
+        <div className='bio-container'>
+            <div className='aside-header'>BIO</div>
             <div className="char-name">
                 <h3 className='bio-item'>{`Name:`}</h3>
                 <div className='bio-item'>{this.props.characters.name}</div>

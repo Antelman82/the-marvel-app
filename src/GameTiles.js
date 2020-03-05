@@ -38,7 +38,9 @@ class GameTiles extends Component {
         console.log('GameTiles Component Render')
 
         return(
-            <Tile characters={this.props.characters} comic={this.state.comic}  />
+            
+                <Tile characters={this.props.characters} comic={this.state.comic}  />
+           
         )
     }
 }

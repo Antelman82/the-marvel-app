@@ -34,18 +34,18 @@ class Tile extends Component {
 
             // console.log(currentBackgroundImg)
             tiles.push(
-                <div 
-                    className='tile' 
-                    key={i} 
-                    onClick={() => this.handleClick(currentTile)}
-                    style={{ 
-                        backgroundImage:  `url(${defaultBackgroundImg})`,
-                        backgroundSize: `cover`, 
-                        backgroundPosition: `center center`
-                    }}
-                    >
-                    {/* {currentComic} */}
-                    {/* <p>{currentCharacter}</p> */}
+                <div className='flex-cell'>
+                    <div 
+                        className='flex-item' 
+                        key={i} 
+                        onClick={() => this.handleClick(currentTile)}
+                        style={{ 
+                            backgroundImage:  `url(${defaultBackgroundImg})`
+                        }}
+                        >
+                        {/* {currentComic} */}
+                        {/* <p>{currentCharacter}</p> */}
+                    </div>
                 </div>)
         }
         return(

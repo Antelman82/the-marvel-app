@@ -53,7 +53,8 @@ class App extends Component {
   }
 
   render(){
-      console.log('App Component Render')
+    console.log('App Component Render')
+    let defaultBackgroundImg = `/images/Marvel-Wallpaper-HD-backgrounds-Wonderful.jpeg`
 
     return (
       <div>
@@ -65,17 +66,23 @@ class App extends Component {
             <li><a href='#'>Feedback</a></li>
           </nav>
         </header>
-        <main className='main'>
-          <div className='game-board-container'>
-            {this.state.apiDataLoaded && <GameTiles characters={this.state.characters} />}
+        <main className='main'
+          style={{ 
+            backgroundImage:  `url(${defaultBackgroundImg})`,
+            backgroundSize: `cover`,
+            backgroundPosition: `center center`}}>
+          <div className='partition'>
+            <div className='flex-container'>
+              {this.state.apiDataLoaded && <GameTiles characters={this.state.characters} />}
+            </div>
+            <aside className=''>
+              {this.state.apiDataLoaded && <CharacterBio characters={this.state.characters} />}
+              {/* <div>Window-State-2
+                <div>Game Status</div>
+                <div>Game Statistics</div>
+              </div> */}
+            </aside>
           </div>
-          <aside>
-            {this.state.apiDataLoaded && <CharacterBio characters={this.state.characters} />}
-            {/* <div>Window-State-2
-              <div>Game Status</div>
-              <div>Game Statistics</div>
-            </div> */}
-          </aside>
         </main>
         <footer>footer
         </footer>
