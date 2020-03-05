@@ -9,7 +9,8 @@ class App extends Component {
 
   state = {
     characters: [],
-    currentChar: ''
+    currentChar: '',
+    tile: []
   }
 
   componentDidMount(){
@@ -29,13 +30,17 @@ class App extends Component {
       // console.log(response.data.data.results[52].name)
       const characters = response.data.data.results[52]
       this.setState({ characters })
+
+      console.log('axios')
+      console.log(characters)
+      console.log(this.state.characters)
       // let characterName = response.data.data.results[52].name
-      // // console.log(`${response.data.data.results[52].thumbnail.path}.${response.data.data.results[52].thumbnail.extension}`)
+      console.log(`${response.data.data.results[52].thumbnail.path}.${response.data.data.results[52].thumbnail.extension}`)
       // let characterThumb = `${response.data.data.results[52].thumbnail.path}.${response.data.data.results[52].thumbnail.extension}`
-      // // console.log(response.data.data.results[52].comics.items.length)
-      // let characterComicNumber = response.data.data.results[52].comics.items.length
-      // // Character Marvel Wiki Site
-      // // console.log(response.data.data.results[52].urls[1].url)
+      console.log(response.data.data.results[52].comics.available)
+      // let characterComicNumber = response.data.data.results[52].comics.available
+      // Character Marvel Wiki Site
+      console.log(response.data.data.results[52].urls[1].url)
       // let characterWiki = response.data.data.results[52].urls[1].url
     })
     .catch(error => {
@@ -43,6 +48,12 @@ class App extends Component {
     })    
   }
 
+  // handleClick = () => {
+  //   console.log('handleClick', this)
+  //   // this.setState({
+  //   //   tile
+  //   // }) 
+  // }
    
   // console.log(makeTiles())
   render(){
@@ -69,11 +80,10 @@ class App extends Component {
           </div>
           <aside>INFO WINDOW
             <CharacterBio characters={this.state.characters} />
-            <div>Window-State-2
+            {/* <div>Window-State-2
               <div>Game Status</div>
               <div>Game Statistics</div>
-            </div>
-            
+            </div> */}
           </aside>
         </main>
         <footer>footer
