@@ -10,59 +10,52 @@ class App extends Component {
   state = {
     characters: [],
     currentChar: '',
-    tile: []
+    tile: [],
+    isLoading: true,
+    errors: null
   }
 
-  componentDidMount(){
+  getCharacters(){
     // Axios.get(`https://gateway.marvel.com/v1/public/characters?limit=100&apikey=5139be72ea6869ccf8846bbbe6b562ea&ts=1583344448559&hash=dbb36e239882ffd022ece2a7987cbe80`)
     //   .then(response => {
     //     // console.log(response.data.data.results)
     //     const characters = response.data.data.results;
     //     this.setState({ characters });
     //   })
+    // .catch(error => {
+    //   console.log(error)
+    // })
 
     Axios({
       method: 'GET',
       url: 'https://gateway.marvel.com/v1/public/characters?limit=100&apikey=5139be72ea6869ccf8846bbbe6b562ea&ts=1583344448559&hash=dbb36e239882ffd022ece2a7987cbe80'
     })
     .then(response => {
-      // console.log(response.data.data.results[52])
-      // console.log(response.data.data.results[52].name)
       const characters = response.data.data.results[52]
-      this.setState({ characters })
+      this.setState({ 
+        characters,
+        apiDataLoaded: true
+      })
+
 
       console.log('axios')
-      console.log(characters)
-      console.log(this.state.characters)
-      // let characterName = response.data.data.results[52].name
-      console.log(`${response.data.data.results[52].thumbnail.path}.${response.data.data.results[52].thumbnail.extension}`)
-      // let characterThumb = `${response.data.data.results[52].thumbnail.path}.${response.data.data.results[52].thumbnail.extension}`
-      console.log(response.data.data.results[52].comics.available)
-      // let characterComicNumber = response.data.data.results[52].comics.available
-      // Character Marvel Wiki Site
-      console.log(response.data.data.results[52].urls[1].url)
-      // let characterWiki = response.data.data.results[52].urls[1].url
+
     })
     .catch(error => {
       console.log(error)
+      this.setState({
+        error,
+        apiDataLoaded: false
+      })
     })    
   }
 
-  // handleClick = () => {
-  //   console.log('handleClick', this)
-  //   // this.setState({
-  //   //   tile
-  //   // }) 
-  // }
-   
-  // console.log(makeTiles())
+  componentDidMount(){
+    this.getCharacters()
+  }
+
   render(){
-      // console.log(characterName)
-      // console.log(characterThumb)
-      // console.log(characterComicNumber)
-      // console.log(CharacterWiki)
       console.log('render')
-      // console.log(this.state.characters)
 
     return (
       <div>
@@ -79,7 +72,7 @@ class App extends Component {
             <GameTiles />
           </div>
           <aside>INFO WINDOW
-            <CharacterBio characters={this.state.characters} />
+            {this.state.apiDataLoaded && <CharacterBio characters={this.state.characters} />}
             {/* <div>Window-State-2
               <div>Game Status</div>
               <div>Game Statistics</div>
