@@ -131,7 +131,7 @@ header nav li:hover {
 /* vvvvv Aside Section vvvvvvvvvvvvvvvvvvvvvvvvvvvv */
 aside {
   grid-column: 2;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   background: rgba(19, 19, 17, .7);
   color: white;
   /* display none allows for the aside to be hidden, this just for testing currently. */
