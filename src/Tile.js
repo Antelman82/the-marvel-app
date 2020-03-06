@@ -16,8 +16,14 @@ class Tile extends Component {
         currentTile.currentBackgroundImg = '/images/sample-iron-man.jpg'
         console.log(currentTile.currentBackgroundImg)
         let curBgImg = document.querySelector(`.${currentTile.tileId}`)
-        console.log(curBgImg)
-        curBgImg.style.backgroundImage = `url('/images/sample-iron-man.jpg')`
+        console.log(curBgImg.style.backgroundImage)
+        if (curBgImg.style.backgroundImage === 'url("/images/tileback.jpeg")'){
+            console.log('change background')
+            curBgImg.style.backgroundImage = `url('/images/sample-iron-man.jpg')`
+        } else {
+            console.log('change it back')
+            curBgImg.style.backgroundImage = `url('/images/tileback.jpeg')`
+        }
         // this.setState({
         //     bgImg: '/images/sample-iron-man.jpg'
         // })
