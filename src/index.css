@@ -1,12 +1,26 @@
-
+/****************************************************/
+/*       Index.css                                  */
+/****************************************************/
+/*       Table of Contents                          */
+/*                                                  */
+/*       Header                                     */
+/*          Navigation                              */
+/*       Main                                       */
+/*          Game Board                              */
+/*          Aside                                   */
+/*          How to Play                             */
+/*          Contact Info                            */
+/*          Feedback                                */
+/*       Footer                                     */
+/****************************************************/
 html{
   background: black;
 }
-
-body{
-  height: 100vw;
+#root{
+  height: 100%;
 }
-
+/****************************************************/
+/* vvvvv Header Section vvvvvvvvvvvvvvvvvvvvvvvvvvv */
 header {
   background: rgb(70, 67, 67);
   /* background: rgb(19, 19, 17); */
@@ -14,16 +28,23 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100vw;
+  margin-right: 20px;
   /* border: 1px solid red; */
 }
-
+/* ^^^^^ Header Section ^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
+/****************************************************/
+/* ------------------------------------------------ */
+/****************************************************/
+/* vvvvv Navigation Section vvvvvvvvvvvvvvvvvvvvvvv */
 .nav {
   display: inline-block;
   /* border: 1px solid red; */
   align-items: right;
+  margin-right: 20px;
 } 
-
 nav a {
   color: white;
   display: inline-block;
@@ -31,47 +52,39 @@ nav a {
   font-size: 1.2em;
   text-decoration: none;
 }
-
 header nav li {
   display: inline-block;
   vertical-align: middle;
   padding: 10px;
 }
-
 header nav li:hover {
   background: #282c34;
   border-radius: 5px;
 }
-  
-footer {
-  /* border: 1px solid red; */
-  background: rgb(70, 67, 67);
-  color: white;
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  position: relative;
-  bottom: 0;
-  width: 100%;
-  height: 5%;
-  justify-content: center;
-}
-
+/* ^^^^^ Navigation Section ^^^^^^^^^^^^^^^^^^^^^^^ */
 /****************************************************/
-/* Main Section */
+/* ------------------------------------------------ */
+/****************************************************/
+/* vvvvv Main Section vvvvvvvvvvvvvvvvvvvvvvvvvvvvv */
+.main{
+  position: absolute;
+  width: 100vw;
+  height: 90%;
+  /* You can also add top: 0 and left:0 */
+}
 .partition{
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   grid-template-rows: 100%;
 }
-
+/* v-v-v GameBoard Sub-section v-v-v-v-v-v-v-v-v-v- */
 .flex-container {
-  grid-column: 1 /span 2;
+  grid-column: 1;
   display: flex;
   justify-content: start;
   flex-wrap: wrap; 
+  margin-bottom: auto;
 }
-
 .flex-cell {
   flex: 0 0 20%;
   display: flex;
@@ -80,13 +93,11 @@ footer {
   padding: 0.5rem;
   box-sizing: border-box;
 }
-
 .flex-cell:before {
   content: '';
   display: table;
   padding-top: 100%;
 }
-
 .flex-item {
   flex-grow: 1;
   color: white;
@@ -97,42 +108,84 @@ footer {
   background-position: center center;
   border-radius: 10%;
 }
+/* ^-^-^ GameBoard Sub-section ^-^-^-^-^-^-^-^-^-^- */
+/* v-v-v How to Play Sub-section v-v-v-v-v-v-v-v-v- */
+.how-to-play{
+  display: none;
+}
+/* ^-^-^ How to Play Sub-section ^-^-^-^-^-^-^-^-^- */
+/* v-v-v Contact Info Sub-section v-v-v-v-v-v-v-v-v */
+.contact-info{
+  display: none;
+}
+/* ^-^-^ Contact Info Sub-section ^-^-^-^-^-^-^-^-^ */
+/* v-v-v Feedback Sub-section v-v-v-v-v-v-v-v-v-v-v */
+.feedback{
+  display: none;
+}
+/* ^-^-^ Feedback Sub-section ^-^-^-^-^-^-^-^-^-^-^ */
 
+/* ^^^^^ Main Section ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
 /****************************************************/
-/* Aside Section */
+/****************************************************/
+/* vvvvv Aside Section vvvvvvvvvvvvvvvvvvvvvvvvvvvv */
 aside {
-  grid-column: 3;
+  grid-column: 2;
   border: 1px solid red;
   background: rgba(19, 19, 17, .7);
   color: white;
-  display: none;
+  /* display none allows for the aside to be hidden, this just for testing currently. */
+  /* display: none; */
+  overflow-y: scroll;
 }
 .aside-header {
   background: rgba(70, 67, 67, .7);
   height: 50px;
   text-align: center;
 }
-
+/* "scrolling box" */
+.bio-container{
+  /* overflow-y: scroll; */
+}
 .bio-item {
   display: inline-block;
 }
-
 img{
   height: 100px;
   /* width: 100px; */
 }
+/* currently unused aside class names */
+/* .char-name */
+/* .bio-item */
+/* .char-thumb*/
+/* .char-description */
+/* .char-name */
 
-/* .wrapper{
-position: absolute;
-width: 100%;
-height: 100%;
-
-/* You can also add top: 0 and left:0
-} */
-
+/* ^^^^^ Aside Section ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
+/****************************************************/
+/* ------------------------------------------------ */
+/****************************************************/
+/* vvvvv Footer Section vvvvvvvvvvvvvvvvvvvvvvvvvvv */
+footer {
+  /* border: 1px solid red; */
+  background: rgb(70, 67, 67);
+  color: white;
+  /* display: block; */
+  /* align-items: middle; */
+  padding: 0 20px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  max-height: 5%;
+  min-height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 20px;
+  padding-bottom: 0;
+}
+/* ^^^^^ Footer Section ^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
 /****************************************************/
 
-
-
-
+/****************************************************/
+/*       End of File                                */
 /****************************************************/

@@ -11,9 +11,12 @@ class GameTiles extends Component {
     getComics(){
         Axios({
             method: 'GET',
+            // Replace first part of the url for each randome comic book's URI from the tile's click result.
             url: `https://gateway.marvel.com/v1/public/comics/60151?&apikey=5139be72ea6869ccf8846bbbe6b562ea&ts=1583344448559&hash=dbb36e239882ffd022ece2a7987cbe80`
         })
         .then(response => {
+            // const comic = response.data.data.results[0]
+            //I need to pull multiple comics for the character.
             const comic = response.data.data.results[0]
             this.setState({ 
                 comic,

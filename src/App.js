@@ -4,6 +4,10 @@ import Axios from 'axios'
 
 import GameTiles from './GameTiles'
 import CharacterBio from './CharacterBio'
+import HowToPlay from './HowToPlay'
+import ContactInfo from './ContactInfo'
+import Feedback from './Feedback'
+
 // import { render } from '@testing-library/react';
 class App extends Component {
 
@@ -25,13 +29,13 @@ class App extends Component {
     // .catch(error => {
     //   console.log(error)
     // })
+    let selectedCharacter = 'Spider-Man'
 
     Axios({
       method: 'GET',
-      url: 'https://gateway.marvel.com/v1/public/characters?name=Spider-Man&apikey=5139be72ea6869ccf8846bbbe6b562ea&ts=1583344448559&hash=dbb36e239882ffd022ece2a7987cbe80'
+      url: `https://gateway.marvel.com/v1/public/characters?name=${selectedCharacter}&apikey=5139be72ea6869ccf8846bbbe6b562ea&ts=1583344448559&hash=dbb36e239882ffd022ece2a7987cbe80`,
     })
     .then(response => {
-      // console.log(response.data.data.results[0].name)
       const characters = response.data.data.results[0]
       this.setState({ 
         characters,
@@ -82,9 +86,12 @@ class App extends Component {
                 <div>Game Statistics</div>
               </div> */}
             </aside>
+            <HowToPlay />
+            <ContactInfo />
+            <Feedback />
           </div>
         </main>
-        <footer>footer
+        <footer>© Antelman Enterprises, LLC
         </footer>
 
       </div>
