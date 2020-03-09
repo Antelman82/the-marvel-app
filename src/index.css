@@ -37,7 +37,15 @@ header {
   letter-spacing: 2px;
   font-size: 25px;
 }
-
+header h1 a {
+  text-decoration: none;
+  color: white;
+  padding: 0;
+}
+header h1{
+  padding: n0;
+  margin: 0;
+}
 /* ^^^^^ Header Section ^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
 /****************************************************/
 /* ------------------------------------------------ */
@@ -116,17 +124,20 @@ header nav li:hover {
 /* ^-^-^ GameBoard Sub-section ^-^-^-^-^-^-^-^-^-^- */
 /* v-v-v How to Play Sub-section v-v-v-v-v-v-v-v-v- */
 .how-to-play{
-  display: none;
+  /* display: none; */
+  color: white;
 }
 /* ^-^-^ How to Play Sub-section ^-^-^-^-^-^-^-^-^- */
 /* v-v-v Contact Info Sub-section v-v-v-v-v-v-v-v-v */
 .contact-info{
-  display: none;
+  /* display: none; */
+  color: white;
 }
 /* ^-^-^ Contact Info Sub-section ^-^-^-^-^-^-^-^-^ */
 /* v-v-v Feedback Sub-section v-v-v-v-v-v-v-v-v-v-v */
 .feedback{
-  display: none;
+  /* display: none; */
+  color: white;
 }
 /* ^-^-^ Feedback Sub-section ^-^-^-^-^-^-^-^-^-^-^ */
 

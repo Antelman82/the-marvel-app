@@ -5,7 +5,12 @@ class Feedback extends Component {
         console.log('Feedback Component Render')
 
         return(
-            <div className='feedback'>Feedback Page</div>
+            <div className='feedback'>
+                <h2>Feedback Page</h2>
+                <ol>
+                    <li>Tell me what you think</li>
+                </ol>
+            </div>
         )
     }
 }
