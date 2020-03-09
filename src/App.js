@@ -63,11 +63,13 @@ class App extends Component {
     return (
       <div>
         <header className='header'>
-          <h1>Marvel Match</h1>
+          <h1>MARVEL MATCH</h1>
           <nav className='nav'>
-            <li><a href='#'>How to play</a></li>
-            <li><a href='#'>Contact Info</a></li>
-            <li><a href='#'>Feedback</a></li>
+            <ul>
+              <li><a href='#'>HOW TO PLAY</a></li>
+              <li><a href='#'>CONTACT INFO</a></li>
+              <li><a href='#'>FEEDBACK</a></li>
+            </ul>
           </nav>
         </header>
         <main className='main'
@@ -83,8 +85,12 @@ class App extends Component {
               {this.state.apiDataLoaded && <CharacterBio characters={this.state.characters} />}
               {/* <div>Window-State-2
                 <div>Game Status</div>
+                  <div>Timer</div>
+                  <div>Player 1 score</div>
+                  <div>Player 2 score</div>
                 <div>Game Statistics</div>
-              </div> */}
+                  <div>Fastest Time</div>
+              </div>*/}
             </aside>
             <HowToPlay />
             <ContactInfo />
