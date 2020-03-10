@@ -30,6 +30,8 @@ class CharacterBio extends Component {
                 <h3 className='bio-item'>Wiki:</h3>
                     <a className='bio-item wiki-link' href={`${this.props.characters.urls[1].url}`} >Click Here</a>
             </div>
+            {/* <iframe src="https://www.marvel.com/characters/spider-man-peter-parker?utm_campaign=apiRef&utm_source=5139be72ea6869ccf8846bbbe6b562ea"></iframe> */}
+            {/* https://www.marvel.com/characters/spider-man-peter-parker?utm_campaign=apiRef&utm_source=5139be72ea6869ccf8846bbbe6b562ea */}
         </div>
     );
   }

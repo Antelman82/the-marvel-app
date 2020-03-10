@@ -71,9 +71,6 @@ class App extends Component {
           </h1>
           <nav className='nav'>
             <ul>
-              {/* <li><a href='./src/HowtoPlay'>HOW TO PLAY</a></li>
-              <li><a href='#'>CONTACT INFO</a></li>
-              <li><a href='#'>FEEDBACK</a></li> */}
               <Link to='/howtoplay'>HOW TO PLAY</Link>
               <Link to='/contactinfo'>CONTACT INFO</Link>
               <Link to='/feedback'>FEEDBACK</Link>
@@ -81,36 +78,11 @@ class App extends Component {
           </nav>
         </header>
         <Switch>
-          {/* <Route exact path="/" component={Home}/> */}
           <Route exact path="/" component={Main}/>
           <Route path="/howtoplay" component={HowToPlay}/>
           <Route path="/contactinfo" component={ContactInfo}/>
           <Route path="/feedback" component={Feedback}/>}/>
         </Switch>
-        {/* <main className='main'
-          style={{ 
-            backgroundImage:  `url(${defaultBackgroundImg})`,
-            backgroundSize: `cover`,
-            backgroundPosition: `center center`}}>
-          
-          <div className='partition'>
-            <div className='flex-container'>
-              {this.state.apiDataLoaded && <GameTiles characters={this.state.characters} />}
-            </div>
-            <aside className=''>
-              {this.state.apiDataLoaded && <CharacterBio characters={this.state.characters} />}
-              {/* <div>Window-State-2
-                <div>Game Status</div>
-                  <div>Timer</div>
-                  <div>Player 1 score</div>
-                  <div>Player 2 score</div>
-                <div>Game Statistics</div>
-                  <div>Fastest Time</div>
-              </div>
-            </aside>
-            
-          </div>
-        </main> */}
         <footer>© Antelman Enterprises, LLC
         </footer>
 

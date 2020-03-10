@@ -186,6 +186,10 @@ img{
 /* .char-thumb*/
 /* .char-description */
 /* .char-name */
+iframe{
+  width: 100%;
+  height: 100vw;
+}
 
 /* ^^^^^ Aside Section ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
 /****************************************************/
@@ -199,7 +203,7 @@ footer {
   /* display: block; */
   /* align-items: middle; */
   padding: 0 20px;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   max-height: 5%;

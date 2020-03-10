@@ -5,7 +5,7 @@ import Tile from './Tile'
 class GameTiles extends Component {
     // This tile state will be used when we try and do a randome iteration through the tile backgrounds so we only have two of each!!! this is kind of important for this game.
     state = {
-        tile: []
+        // tile: []
     }
 
     getComics(){
@@ -37,8 +37,12 @@ class GameTiles extends Component {
         this.getComics()
     }
 
+
+
     render(){
         console.log('GameTiles Component Render')
+
+        
 
         return(
             
