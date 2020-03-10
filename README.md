@@ -47,7 +47,7 @@ My project will be to create a memory game app using marvel characters. The main
 <img src='./public/images/Marvel-Wallpaper-HD-background-Wonderful.jpeg' width=800 align='center'>
 </p>
 <p align="center">
-<img src='./public/images/tileback.jpg' width=400 align='center'>
+<img src='./public/images/tileback.jpeg' width=400 align='center'>
 </p>
 
 ## User Stories
