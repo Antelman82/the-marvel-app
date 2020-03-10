@@ -16,27 +16,27 @@ My project will be to create a memory game app using marvel characters. The main
 ## Screenshots
 - Wireframe
 <p align="center">
-<img src='./public/images/wireframe-page1.png' width=200 align='center'>
+<img src='./public/images/wireframe-page1.png' width=400 align='center'>
 </p>
 
 <p align="center">
-<img src='./public/images/wireframe-page2.png' width=200 align='center'>
+<img src='./public/images/wireframe-page2.png' width=400 align='center'>
 </p>
 
 <p align="center">
-<img src='./public/images/wireframe-page2b.png' width=200 align='center'>
+<img src='./public/images/wireframe-page2b.png' width=400 align='center'>
 </p>
 
 <p align="center">
-<img src='./public/images/wireframe-page3.png' width=200 align='center'>
+<img src='./public/images/wireframe-page3.png' width=400 align='center'>
 </p>
 
 <p align="center">
-<img src='./public/images/wireframe-page4.png' width=200 align='center'>
+<img src='./public/images/wireframe-page4.png' width=400 align='center'>
 </p>
 
 <p align="center">
-<img src='./public/images/Component-structure.png' width=200 align='center'>
+<img src='./public/images/Component-structure.png' width=400 align='center'>
 </p>
 
 > created using [https://www.canva.com/create-a-design](https://www.canva.com/create-a-design)
@@ -44,10 +44,10 @@ My project will be to create a memory game app using marvel characters. The main
 
 ## Assets Used
 <p align="center">
-<img src='./images/Marvel-Wallpaper-HD-background-Wonderful.jpeg' width=200 align='center'>
+<img src='./public/images/Marvel-Wallpaper-HD-background-Wonderful.jpeg' width=400 align='center'>
 </p>
 <p align="center">
-<img src='./images/tileback.jpg' width=200 align='center'>
+<img src='./public/images/tileback.jpg' width=400 align='center'>
 </p>
 
 ## User Stories
