@@ -36,7 +36,7 @@ My project will be to create a memory game app using marvel characters. The main
 </p>
 
 <p align="center">
-<img src='./public/Component-structure.jpg' width=200 align='center'>
+<img src='./public/images/Component-structure.jpg' width=200 align='center'>
 </p>
 
 > created using [https://www.canva.com/create-a-design](https://www.canva.com/create-a-design)
