@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 
 class HowToPlay extends Component {
     render(){
-        console.log('HowToPlay Component Render')
 
         return(
             <div className='how-to-play'>
@@ -17,7 +16,6 @@ class HowToPlay extends Component {
                     <li>The player with the most matches wins</li>
                 </ol>
             </div>
-
         )
     }
 }

@@ -22,6 +22,5 @@ class Feedback extends Component {
             </div>
         )
     }
-        
 }
 export default Feedback

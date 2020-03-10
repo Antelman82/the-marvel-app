@@ -36,7 +36,7 @@ My project will be to create a memory game app using marvel characters. The main
 </p>
 
 <p align="center">
-<img src='./component-structure.jpg' width=200 align='center'>
+<img src='./Component-structure.jpg' width=200 align='center'>
 </p>
 
 > created using [https://www.canva.com/create-a-design](https://www.canva.com/create-a-design)
@@ -80,12 +80,21 @@ My project will be to create a memory game app using marvel characters. The main
 ## Silver Level:
     - User selected difficulty/number of cards
     - User able to click on card and see information about the comic/character
+    - athsetically appealing secondary pages
+    - setup Crypto-js to create MD5 hash for API calls. 
 
 ## Gold Level:
+    - pre-populated list of characters/teams to populate card tiles
+    - an info link icon on the face of each card that will trigger the aside info page to update the character/comic info.
+    - a seperate aside for keeping score, timer, records, etc
+    - css formatting so the aside only pops out when clicking on timer pull-tap for the score aside
+    - css formatting so the aside pops out when the user clicks on the info button on the front of the card tile.
+    - Main page won't resent when navigating to the different routings.
 
 ---
 
 ### Fonts and formatting
+
 
 ---
 

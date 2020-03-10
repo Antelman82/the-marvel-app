@@ -5,7 +5,6 @@ import Tile from './Tile'
 class GameTiles extends Component {
     // This tile state will be used when we try and do a randome iteration through the tile backgrounds so we only have two of each!!! this is kind of important for this game.
     state = {
-        // tile: []
     }
 
     getComics(){
@@ -15,15 +14,12 @@ class GameTiles extends Component {
             url: `https://gateway.marvel.com/v1/public/comics/60151?&apikey=5139be72ea6869ccf8846bbbe6b562ea&ts=1583344448559&hash=dbb36e239882ffd022ece2a7987cbe80`
         })
         .then(response => {
-            // const comic = response.data.data.results[0]
             //I need to pull multiple comics for the character.
             const comic = response.data.data.results[0]
             this.setState({ 
                 comic,
                 apiDataLoaded: true
             })
-            console.log('getComics axios')
-            
         })
         .catch(error => {
             this.setState({
@@ -37,17 +33,9 @@ class GameTiles extends Component {
         this.getComics()
     }
 
-
-
     render(){
-        console.log('GameTiles Component Render')
-
-        
-
         return(
-            
-                <Tile characters={this.props.characters} comic={this.state.comic}  />
-           
+            <Tile characters={this.props.characters} comic={this.state.comic}  />
         )
     }
 }
