@@ -6,7 +6,6 @@ filename: README.md
 <img src='https://media0.giphy.com/media/vBjLa5DQwwxbi/100.webp?cid=790b76111a7d203121816150dce22a929d0a880ddc255964&rid=100.webp' width=800 align='center'>
 </p>
 
-https://media0.giphy.com/media/vBjLa5DQwwxbi/100.webp?cid=790b76111a7d203121816150dce22a929d0a880ddc255964&rid=100.webp
 
 My project will be to create a memory game app using marvel characters. The main portion of the app will be trying to flip over matching pairs of character cards. If the user is interested in learning more about a character, they can simply click on the more info button at the top corner of the card, and it will slide out a side window with some information about that character, with links to find out even more. That same window can also pop out with game statistics like score, and elapsed time, etc. 
 
