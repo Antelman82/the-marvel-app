@@ -89,6 +89,75 @@ My project will be to create a memory game app using marvel characters. The main
     - User can save a favorite character to use again.
 
 ---
+### Code Snippet
+```
+handleClick = (currentTile) => {
+        console.log(this.state.counter)
+        this.setState({
+            counter: this.state.counter+1
+        })
+        let curTileClass = document.querySelector(`.${currentTile.tileId}`)
+        console.log(curTileClass);
+        Axios({
+            method: 'GET',
+            url: `${currentTile.currentBackgroundURI}?&apikey=5139be72ea6869ccf8846bbbe6b562ea&ts=1583344448559&hash=dbb36e239882ffd022ece2a7987cbe80`,
+        })
+        .then(response => {
+            currentTile.currentBackgroundImg = `${response.data.data.results[0].thumbnail.path}.${response.data.data.results[0].thumbnail.extension}`
+            if (this.state.counter === 3) {
+                if (this.state.currentBackgroundImg === this.state.previousBackgroundImg){
+                    let previousPicked = this.state.previousPicked
+                    previousPicked.style.pointerEvents = `none`
+                    curTileClass.style.pointerEvents = `none`
+                    this.setState({
+                        currentPicked: null,
+                        previousPicked: null,
+                        currentBackgroundImg: null,
+                        previousBackgroundImg: null,
+                        counter: 0
+                    })
+                } 
+                else {
+                    console.log(this.state)
+                    console.log("both picked but don't match")
+                    console.log(this.state.previousPicked)
+                    let previousPicked = this.state.previousPicked
+                    console.log(previousPicked)
+                    previousPicked.style.backgroundImage = `url('${this.state.bgImg}')`
+                    curTileClass.style.backgroundImage = `url('${this.state.bgImg}')`
+                    this.setState({
+                        currentPicked: null,
+                        previousPicked: null,
+                        currentBackgroundImg: null,
+                        previousBackgroundImg: null,
+                        counter: 0
+                    })
+                }
+            } else if (this.state.currentPicked === null && this.state.counter <= 2 ) {
+                curTileClass.style.backgroundImage = `url('${currentTile.currentBackgroundImg}')`
+                this.setState({
+                  currentPicked: curTileClass,
+                  currentBackgroundImg: currentTile.currentBackgroundImg
+                })
+            }
+            else if (this.state.currentPicked !== null && this.state.previousPicked === null && this.state.counter <= 2 ){
+                    curTileClass.style.backgroundImage = `url('${currentTile.currentBackgroundImg}')`
+                    this.setState({
+                    currentPicked: curTileClass,
+                    currentBackgroundImg: currentTile.currentBackgroundImg,
+                    previousPicked: this.state.currentPicked,
+                    previousBackgroundImg: this.state.currentBackgroundImg
+                    })
+                }
+
+```
+
+---
+### Time Frames
+# Component | Time
+App.js 1hr | GameTiles.js 8hr | Tiles.js 32hr | Main.js 0.5hr | HowToPlay.js 0.5hr | ContactInfo.js 0.5hr | Feedback.js 0.5hr
+
+---
 
 ### Fonts and formatting
 MarvelRegular-Dj83.ttf
