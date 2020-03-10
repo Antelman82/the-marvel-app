@@ -16,27 +16,27 @@ My project will be to create a memory game app using marvel characters. The main
 ## Screenshots
 - Wireframe
 <p align="center">
-<img src='./images/wireframe-page1.png' width=200 align='center'>
+<img src='./public/images/wireframe-page1.png' width=200 align='center'>
 </p>
 - Wireframe
 <p align="center">
-<img src='./images/wireframe-page2.png' width=200 align='center'>
+<img src='./public/images/wireframe-page2.png' width=200 align='center'>
 </p>
 - Wireframe
 <p align="center">
-<img src='./images/wireframe-page2b.png' width=200 align='center'>
+<img src='./public/images/wireframe-page2b.png' width=200 align='center'>
 </p>
 - Wireframe
 <p align="center">
-<img src='./images/wireframe-page3.png' width=200 align='center'>
+<img src='./public/images/wireframe-page3.png' width=200 align='center'>
 </p>
 - Wireframe
 <p align="center">
-<img src='./images/wireframe-page4.png' width=200 align='center'>
+<img src='./public/images/wireframe-page4.png' width=200 align='center'>
 </p>
 
 <p align="center">
-<img src='./Component-structure.jpg' width=200 align='center'>
+<img src='./public/images/Component-structure.jpg' width=200 align='center'>
 </p>
 
 > created using [https://www.canva.com/create-a-design](https://www.canva.com/create-a-design)
@@ -90,11 +90,13 @@ My project will be to create a memory game app using marvel characters. The main
     - css formatting so the aside only pops out when clicking on timer pull-tap for the score aside
     - css formatting so the aside pops out when the user clicks on the info button on the front of the card tile.
     - Main page won't resent when navigating to the different routings.
+    - using something similar to iframe in js to display the marvel url for the character's stats, as they are not currently provided with the marvel api, at least not that I could find. 
 
 ---
 
 ### Fonts and formatting
-
+MarvelRegular-Dj83.ttf
+StanLee-Regular.otf
 
 ---
 
@@ -104,12 +106,26 @@ Your submission must include all of the following:
 ---
 
 ## Bugs
-
-**Found when playing with my kids**
+currently no known bugs
 
 ---
 ## Technologies Used:
+- **Command Line**: used for interacting with the computer, navigating the filesystem.
+- **Source Control**: used for interaction, management and upload changes on code to Git repository
+- **canva.com**: used for building the wireframe
+- **Visual Studio Code**: used for coding with Html, CSS, JQuery and JavaScript
+- **Google Chrome Web Browser**: used for launching the website
+- **Google Chrome Developer Tools**: used to debug and solve problems in the code
+- **React-app**: used to access the words.json file
+- **develop.marvel.com API**: to reference for comicbook data
+- **Postman**: To test and work with the api communication
+- **CryptoJS**: the marvel api requires an md5 encrypted hash that is a combination of the timestamp, publickey, and privatekey. 
+
 
 
 ## Installation:
 All you need is:
+surge
+react-app
+vscode
+google chrome
