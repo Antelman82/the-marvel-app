@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import './ContactInfo.css'
-import Axios from 'axios'
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+// import Axios from 'axios'
+import {BrowserRouter as Router, Routes, Route, Link, rout} from "react-router-dom";
 
 import Main from './Main'
 import HowToPlay from './HowToPlay'
@@ -30,12 +30,12 @@ class App extends Component {
             </ul>
           </nav>
         </header>
-        <Switch>
-          <Route exact path="/" component={Main}/>
+        <Routes>
+          <Route path="/" component={Main}/>
           <Route path="/howtoplay" component={HowToPlay}/>
           <Route path="/contactinfo" component={ContactInfo}/>
-          <Route path="/feedback" component={Feedback}/>}/>
-        </Switch>
+          <Route path="/feedback" component={Feedback}/>
+        </Routes>
         <footer>© Antelman Enterprises, LLC
         </footer>
       </div>
