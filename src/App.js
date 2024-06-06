@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import './ContactInfo.css'
 // import Axios from 'axios'
-import {BrowserRouter as Router, Routes, Route, Link, rout} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
 
 import Main from './Main'
 import HowToPlay from './HowToPlay'
