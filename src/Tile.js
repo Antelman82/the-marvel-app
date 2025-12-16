@@ -40,62 +40,90 @@ function Tile({ characters }) {
     fetchComicAPI(currentTile.currentBackgroundURI)
       .then(response => {
         const comic = response.data.data.results[0];
-        const imagePath = comic.thumbnail.path;
-        const imageExtension = comic.thumbnail.extension;
+        let imageUrl = comic.thumbnail.path;
         
-        // Build the full image URL
-        let imageUrl = imagePath;
-        if (!imageUrl.startsWith('http')) {
-          imageUrl = `${imagePath}.${imageExtension}`;
-        }
+        console.log('Comic data:', comic);
+        console.log('Image path from API:', imageUrl);
         
-        console.log('Fetched image URL:', imageUrl, 'Title:', comic.title);
-        
-        currentTile.currentBackgroundImg = imageUrl;
-        
-        if (counter === 3) {
-          if (currentBackgroundImg === previousBackgroundImg) {
-            console.log('Match found!');
-            previousPicked.style.pointerEvents = `none`
-            curTileClass.style.pointerEvents = `none`
-            setCurrentPicked(null)
-            setPreviousPicked(null)
-            setCurrentBackgroundImg(null)
-            setPreviousBackgroundImg(null)
-            setCounter(0)
+        // Handle image loading with CORS proxy
+        const loadImageWithProxy = async () => {
+          try {
+            if (imageUrl && imageUrl.startsWith('http') && !imageUrl.includes('api.allorigins.win')) {
+              // For SuperHero API images, fetch as blob through CORS proxy and convert to data URL
+              const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+              const proxyUrl = `${CORS_PROXY}${encodeURIComponent(imageUrl)}`;
+              
+              console.log('Fetching image from proxy:', proxyUrl);
+              const response = await fetch(proxyUrl);
+              if (!response.ok) throw new Error('Failed to load image');
+              
+              const blob = await response.blob();
+              const objectUrl = URL.createObjectURL(blob);
+              console.log('Created object URL from blob:', objectUrl);
+              
+              return objectUrl;
+            } else if (imageUrl && imageUrl.startsWith('/')) {
+              // Local image path
+              return imageUrl;
+            } else {
+              // Use the URL as-is
+              return imageUrl;
+            }
+          } catch (error) {
+            console.error('Error loading image:', error);
+            // Fallback to the original URL
+            return imageUrl;
           }
-          else {
-            console.log("No match, flipping back");
-            previousPicked.style.backgroundImage = `url('${bgImg}')`
-            previousPicked.style.border = '0px solid yellow'
-            curTileClass.style.backgroundImage = `url('${bgImg}')`
-            curTileClass.style.border = '0px solid yellow'
-            setCurrentPicked(null)
-            setPreviousPicked(null)
-            setCurrentBackgroundImg(null)
-            setPreviousBackgroundImg(null)
-            setCounter(0)
+        };
+        
+        loadImageWithProxy().then(finalImageUrl => {
+          console.log('Using image URL:', finalImageUrl);
+          currentTile.currentBackgroundImg = finalImageUrl;
+          
+          if (counter === 3) {
+            if (currentBackgroundImg === previousBackgroundImg) {
+              console.log('Match found!');
+              previousPicked.style.pointerEvents = `none`
+              curTileClass.style.pointerEvents = `none`
+              setCurrentPicked(null)
+              setPreviousPicked(null)
+              setCurrentBackgroundImg(null)
+              setPreviousBackgroundImg(null)
+              setCounter(0)
+            }
+            else {
+              console.log("No match, flipping back");
+              previousPicked.style.backgroundImage = `url('${bgImg}')`
+              previousPicked.style.border = '0px solid yellow'
+              curTileClass.style.backgroundImage = `url('${bgImg}')`
+              curTileClass.style.border = '0px solid yellow'
+              setCurrentPicked(null)
+              setPreviousPicked(null)
+              setCurrentBackgroundImg(null)
+              setPreviousBackgroundImg(null)
+              setCounter(0)
+            }
+          } else if (currentPicked === null && counter <= 2) {
+            console.log('First tile selected:', comic.title);
+            curTileClass.style.backgroundImage = `url('${finalImageUrl}')`
+            curTileClass.style.backgroundSize = 'cover';
+            curTileClass.style.backgroundPosition = 'center';
+            curTileClass.style.border = '3px solid yellow';
+            setCurrentPicked(curTileClass)
+            setCurrentBackgroundImg(finalImageUrl)
           }
-        } else if (currentPicked === null && counter <= 2) {
-          console.log('First tile selected:', comic.title);
-          curTileClass.style.backgroundImage = `url('${imageUrl}')`
-          curTileClass.style.backgroundSize = 'cover';
-          curTileClass.style.backgroundPosition = 'center';
-          curTileClass.style.border = '3px solid yellow';
-          setCurrentPicked(curTileClass)
-          setCurrentBackgroundImg(imageUrl)
-        }
-        else if (currentPicked !== null && previousPicked === null && counter <= 2) {
-          console.log('Second tile selected:', comic.title);
-          curTileClass.style.backgroundImage = `url('${imageUrl}')`
-          curTileClass.style.backgroundSize = 'cover';
-          curTileClass.style.backgroundPosition = 'center';
-          curTileClass.style.border = '3px solid yellow';
-          setCurrentPicked(curTileClass)
-          setCurrentBackgroundImg(imageUrl)
-          setPreviousPicked(currentPicked)
-          setPreviousBackgroundImg(currentBackgroundImg)
-        }
+          else if (currentPicked !== null && previousPicked === null && counter <= 2) {
+            console.log('Second tile selected:', comic.title);
+            curTileClass.style.backgroundImage = `url('${finalImageUrl}')`
+            curTileClass.style.backgroundSize = 'cover';
+            curTileClass.style.backgroundPosition = 'center';
+            curTileClass.style.border = '3px solid yellow';
+            setCurrentPicked(curTileClass)
+            setCurrentBackgroundImg(finalImageUrl)
+            setPreviousPicked(currentPicked)
+            setPreviousBackgroundImg(currentBackgroundImg)
+          }
+        });
       })
       .catch(error => {
         console.error('Error fetching comic image:', error)

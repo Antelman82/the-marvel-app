@@ -28,24 +28,6 @@ const fetchWithCORS = async (url) => {
 };
 
 /**
- * Helper function to proxy image URLs
- * @param {string} imageUrl - The image URL to proxy
- * @returns {string} - The proxied image URL
- */
-const proxyImageUrl = (imageUrl) => {
-  if (!imageUrl) return '/images/tileback.jpeg';
-  // If it already starts with the proxy URL, return as-is
-  if (imageUrl.startsWith(CORS_PROXY)) return imageUrl;
-  // Otherwise, wrap it with the proxy
-  try {
-    return `${CORS_PROXY}${encodeURIComponent(imageUrl)}`;
-  } catch (error) {
-    console.warn('Error proxying image URL:', error);
-    return '/images/tileback.jpeg';
-  }
-};
-
-/**
  * Fetches a character from the SuperHero API by name
  * @param {string} characterName - The name of the character to fetch
  * @returns {Promise} - Promise that resolves with character data
@@ -123,8 +105,9 @@ export const fetchComicAPI = async (characterIdOrName = '332') => {
       title: characterData.name,
       description: characterData.biography?.['publisher'] || 'Superhero',
       thumbnail: {
-        path: proxyImageUrl(characterData.image?.url) || '/images/tileback.jpeg',
-        extension: 'jpeg'
+        // Return the raw image URL - Tile component will handle proxying
+        path: characterData.image?.url || '/images/tileback.jpeg',
+        extension: ''
       }
     };
 
@@ -181,8 +164,9 @@ function transformCharacter(superheroData) {
     name: superheroData.name,
     description: superheroData.biography?.['full-name'] || superheroData.name,
     thumbnail: {
-      path: proxyImageUrl(superheroData.image?.url) || '/images/tileback.jpeg',
-      extension: 'jpeg'
+      // Return the raw image URL - Tile component will handle proxying
+      path: superheroData.image?.url || '/images/tileback.jpeg',
+      extension: ''
     },
     comics: {
       available: 10,

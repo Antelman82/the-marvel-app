@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Image Proxy</title>
+</head>
+<body>
+    <h1>Test Image Proxy</h1>
+    
+    <h2>Test 1: Direct SuperHero API Image URL</h2>
+    <img src="https://www.superheroapi.com/api/634/336/image" alt="Direct Image" style="max-width: 200px;">
+    
+    <h2>Test 2: Proxied via api.allorigins.win</h2>
+    <img src="https://api.allorigins.win/raw?url=https%3A%2F%2Fwww.superheroapi.com%2Fapi%2F634%2F336%2Fimage" alt="Proxied Image" style="max-width: 200px;">
+    
+    <h2>Test 3: Background Image with Direct URL</h2>
+    <div style="width: 200px; height: 200px; background-image: url('https://www.superheroapi.com/api/634/336/image'); background-size: cover; background-position: center; border: 1px solid black;"></div>
+    
+    <h2>Test 4: Background Image with Proxied URL</h2>
+    <div style="width: 200px; height: 200px; background-image: url('https://api.allorigins.win/raw?url=https%3A%2F%2Fwww.superheroapi.com%2Fapi%2F634%2F336%2Fimage'); background-size: cover; background-position: center; border: 1px solid black;"></div>
+</body>
+</html>
