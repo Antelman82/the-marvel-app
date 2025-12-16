@@ -12,7 +12,7 @@ function App() {
   console.log('App Component Render')
 
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <div>
         <header className='header'>
           <h1>

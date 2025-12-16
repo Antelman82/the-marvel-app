@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchCharacterAPI, fetchComicAPI } from '../api/mockAPI';
+import { fetchCharacterAPI, fetchComicAPI } from '../api/realAPI';
 
 export const fetchCharacter = createAsyncThunk(
   'character/fetchCharacter',

@@ -32,17 +32,17 @@ export const fetchCharacterAPI = async (characterName = 'Spider-Man') => {
           }
         });
       }
-    }, 500); // 500ms delay to simulate network latency
+    }, 300); // 300ms delay to simulate network latency
   });
 };
 
 /**
- * Simulates fetching a comic from the Marvel API
+ * Simulates fetching a comic/character tile image
  * In production, this would call the real Marvel API
- * @param {string} comicId - The ID of the comic to fetch
+ * @param {string} comicId - The ID of the comic/character to fetch
  * @returns {Promise} - Promise that resolves with comic data
  */
-export const fetchComicAPI = async (comicId = '15997') => {
+export const fetchComicAPI = async (comicId = '1') => {
   return new Promise((resolve, reject) => {
     // Simulate network delay
     setTimeout(() => {
@@ -69,6 +69,6 @@ export const fetchComicAPI = async (comicId = '15997') => {
           }
         });
       }
-    }, 300); // 300ms delay to simulate network latency
+    }, 200); // 200ms delay to simulate network latency
   });
 };

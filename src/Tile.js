@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchComicAPI } from './api/mockAPI';
+import { fetchComicAPI } from './api/realAPI';
 
 function Tile({ characters }) {
   const [tiles, setTiles] = useState([]);
@@ -32,15 +32,30 @@ function Tile({ characters }) {
   }
 
   const handleClick = (currentTile) => {
-    console.log(counter)
+    console.log('Tile clicked:', currentTile.tileId, 'Counter:', counter)
     setCounter(counter + 1)
     let curTileClass = document.querySelector(`.${currentTile.tileId}`)
-    console.log(curTileClass);
+    console.log('Tile element:', curTileClass);
+    
     fetchComicAPI(currentTile.currentBackgroundURI)
       .then(response => {
-        currentTile.currentBackgroundImg = `${response.data.data.results[0].thumbnail.path}.${response.data.data.results[0].thumbnail.extension}`
+        const comic = response.data.data.results[0];
+        const imagePath = comic.thumbnail.path;
+        const imageExtension = comic.thumbnail.extension;
+        
+        // Build the full image URL
+        let imageUrl = imagePath;
+        if (!imageUrl.startsWith('http')) {
+          imageUrl = `${imagePath}.${imageExtension}`;
+        }
+        
+        console.log('Fetched image URL:', imageUrl, 'Title:', comic.title);
+        
+        currentTile.currentBackgroundImg = imageUrl;
+        
         if (counter === 3) {
           if (currentBackgroundImg === previousBackgroundImg) {
+            console.log('Match found!');
             previousPicked.style.pointerEvents = `none`
             curTileClass.style.pointerEvents = `none`
             setCurrentPicked(null)
@@ -50,11 +65,11 @@ function Tile({ characters }) {
             setCounter(0)
           }
           else {
-            console.log(counter)
-            console.log("both picked but don't match")
-            console.log(previousPicked)
+            console.log("No match, flipping back");
             previousPicked.style.backgroundImage = `url('${bgImg}')`
+            previousPicked.style.border = '0px solid yellow'
             curTileClass.style.backgroundImage = `url('${bgImg}')`
+            curTileClass.style.border = '0px solid yellow'
             setCurrentPicked(null)
             setPreviousPicked(null)
             setCurrentBackgroundImg(null)
@@ -62,31 +77,48 @@ function Tile({ characters }) {
             setCounter(0)
           }
         } else if (currentPicked === null && counter <= 2) {
-          curTileClass.style.backgroundImage = `url('${currentTile.currentBackgroundImg}')`
+          console.log('First tile selected:', comic.title);
+          curTileClass.style.backgroundImage = `url('${imageUrl}')`
+          curTileClass.style.backgroundSize = 'cover';
+          curTileClass.style.backgroundPosition = 'center';
+          curTileClass.style.border = '3px solid yellow';
           setCurrentPicked(curTileClass)
-          setCurrentBackgroundImg(currentTile.currentBackgroundImg)
+          setCurrentBackgroundImg(imageUrl)
         }
         else if (currentPicked !== null && previousPicked === null && counter <= 2) {
-          curTileClass.style.backgroundImage = `url('${currentTile.currentBackgroundImg}')`
+          console.log('Second tile selected:', comic.title);
+          curTileClass.style.backgroundImage = `url('${imageUrl}')`
+          curTileClass.style.backgroundSize = 'cover';
+          curTileClass.style.backgroundPosition = 'center';
+          curTileClass.style.border = '3px solid yellow';
           setCurrentPicked(curTileClass)
-          setCurrentBackgroundImg(currentTile.currentBackgroundImg)
+          setCurrentBackgroundImg(imageUrl)
           setPreviousPicked(currentPicked)
           setPreviousBackgroundImg(currentBackgroundImg)
         }
       })
       .catch(error => {
-        console.log(error)
+        console.error('Error fetching comic image:', error)
       })
   }
 
   useEffect(() => {
+    if (!characters || !characters.comics || !characters.comics.items) {
+      console.warn('Characters or comics data not available');
+      return;
+    }
+
     let tiles = []
     let tileCount = 20
     const characterComicURIs = characters.comics.items.map((cover) => {
       return cover.resourceURI
     })
-    let comicsDoubled = doubleArray(characterComicURIs.slice(0, tileCount / 2))
+    
+    // If we don't have enough items, duplicate them
+    let comicsToUse = characterComicURIs.length > 0 ? characterComicURIs : [characters.id];
+    let comicsDoubled = doubleArray(comicsToUse.slice(0, Math.max(1, tileCount / 2)))
     let shuffledURIs = shuffle(comicsDoubled)
+    
     for (let i = 0; i < tileCount; i++) {
       let currentCharacterId = (characters && characters.id)
       let currentCharacter = (characters && characters.name)
