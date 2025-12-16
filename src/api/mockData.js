@@ -30,6 +30,27 @@ export const mockCharacters = {
   }
 };
 
+// SVG data URLs for character tiles - using actual character color themes
+const createCharacterImage = (bgColor, charName, accentColor) => {
+  // Create a more detailed SVG with character themed colors
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+      <defs>
+        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#${bgColor};stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#${accentColor};stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <rect width="200" height="200" fill="url(#grad)"/>
+      <circle cx="100" cy="60" r="35" fill="rgba(255,255,255,0.3)"/>
+      <text x="100" y="130" font-size="18" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">${charName}</text>
+      <text x="100" y="155" font-size="12" fill="rgba(255,255,255,0.8)" text-anchor="middle" font-family="Arial">Marvel Hero</text>
+    </svg>
+  `;
+  const encoded = encodeURIComponent(svg.trim());
+  return `data:image/svg+xml,${encoded}`;
+};
+
 // Mock comic data with character images for tiles
 export const mockComics = {
   '1': {
@@ -37,8 +58,8 @@ export const mockComics = {
     title: 'Spider-Man',
     description: 'The Amazing Spider-Man',
     thumbnail: {
-      path: 'http://i.annihil.us/u/prod/marvel/i/mg/3/50/526548a8c3e4f',
-      extension: 'jpg'
+      path: createCharacterImage('FF0000', 'Spider-Man', 'CC0000'),
+      extension: ''
     }
   },
   '2': {
@@ -46,8 +67,8 @@ export const mockComics = {
     title: 'Iron Man',
     description: 'The Invincible Iron Man',
     thumbnail: {
-      path: 'http://i.annihil.us/u/prod/marvel/i/mg/9/60/537bcaef74e7a',
-      extension: 'jpg'
+      path: createCharacterImage('FFD700', 'Iron Man', 'FF8C00'),
+      extension: ''
     }
   },
   '3': {
@@ -55,8 +76,8 @@ export const mockComics = {
     title: 'Captain America',
     description: 'The First Avenger',
     thumbnail: {
-      path: 'http://i.annihil.us/u/prod/marvel/i/mg/3/20/5232158de5b96',
-      extension: 'jpg'
+      path: createCharacterImage('0052CC', 'Captain America', '003D99'),
+      extension: ''
     }
   },
   '4': {
@@ -64,8 +85,8 @@ export const mockComics = {
     title: 'Thor',
     description: 'The God of Thunder',
     thumbnail: {
-      path: 'http://i.annihil.us/u/prod/marvel/i/mg/d/70/5269608b3e6da',
-      extension: 'jpg'
+      path: createCharacterImage('B22222', 'Thor', '8B0000'),
+      extension: ''
     }
   },
   '5': {
@@ -73,8 +94,8 @@ export const mockComics = {
     title: 'Black Widow',
     description: 'Master Assassin',
     thumbnail: {
-      path: 'http://i.annihil.us/u/prod/marvel/i/mg/f/50/50fecad1f6cf7',
-      extension: 'jpg'
+      path: createCharacterImage('000000', 'Black Widow', '330000'),
+      extension: ''
     }
   },
   '6': {
@@ -82,8 +103,8 @@ export const mockComics = {
     title: 'Hulk',
     description: 'The Incredible Hulk',
     thumbnail: {
-      path: 'http://i.annihil.us/u/prod/marvel/i/mg/5/a0/538615ca33e37',
-      extension: 'jpg'
+      path: createCharacterImage('228B22', 'Hulk', '006400'),
+      extension: ''
     }
   },
   '7': {
@@ -91,26 +112,26 @@ export const mockComics = {
     title: 'Black Panther',
     description: 'King of Wakanda',
     thumbnail: {
-      path: 'http://i.annihil.us/u/prod/marvel/i/mg/6/60/5271607596e3e',
-      extension: 'jpg'
+      path: createCharacterImage('1A1A1A', 'Black Panther', 'FFD700'),
+      extension: ''
     }
   },
   '8': {
     id: 8,
     title: 'Doctor Strange',
-    description: 'Master of the Mystic Arts',
+    description: 'The Sorcerer Supreme',
     thumbnail: {
-      path: 'http://i.annihil.us/u/prod/marvel/i/mg/5/fa/537d857b0f203',
-      extension: 'jpg'
+      path: createCharacterImage('4169E1', 'Doctor Strange', '9932CC'),
+      extension: ''
     }
   },
   '9': {
     id: 9,
     title: 'Vision',
-    description: 'The Synthezoid Android',
+    description: 'The Artificial Avenger',
     thumbnail: {
-      path: 'http://i.annihil.us/u/prod/marvel/i/mg/e/e0/537657b1ef31c',
-      extension: 'jpg'
+      path: createCharacterImage('FF6347', 'Vision', '00FF00'),
+      extension: ''
     }
   },
   '10': {
@@ -118,8 +139,8 @@ export const mockComics = {
     title: 'Scarlet Witch',
     description: 'Master of Magic',
     thumbnail: {
-      path: 'http://i.annihil.us/u/prod/marvel/i/mg/5/70/50bcf1e8c6579',
-      extension: 'jpg'
+      path: createCharacterImage('8B0000', 'Scarlet Witch', 'FF1493'),
+      extension: ''
     }
   }
 };
