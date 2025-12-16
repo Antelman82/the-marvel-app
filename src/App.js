@@ -1,22 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import './ContactInfo.css'
-// import Axios from 'axios'
-import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import Main from './Main'
 import HowToPlay from './HowToPlay'
 import ContactInfo from './ContactInfo'
 import Feedback from './Feedback'
 
-class App extends Component {
+function App() {
+  console.log('App Component Render')
 
-  render(){
-    console.log('App Component Render')
-    
-
-    return (
-      <Router>
+  return (
+    <Router>
       <div>
         <header className='header'>
           <h1>
@@ -31,17 +27,16 @@ class App extends Component {
           </nav>
         </header>
         <Routes>
-          <Route path="/" component={Main}/>
-          <Route path="/howtoplay" component={HowToPlay}/>
-          <Route path="/contactinfo" component={ContactInfo}/>
-          <Route path="/feedback" component={Feedback}/>
+          <Route path="/" element={<Main />} />
+          <Route path="/howtoplay" element={<HowToPlay />} />
+          <Route path="/contactinfo" element={<ContactInfo />} />
+          <Route path="/feedback" element={<Feedback />} />
         </Routes>
         <footer>© Antelman Enterprises, LLC
         </footer>
       </div>
-      </Router>
-    );
-  }
+    </Router>
+  );
 }
 
 export default App;
