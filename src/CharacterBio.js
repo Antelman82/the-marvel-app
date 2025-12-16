@@ -11,7 +11,12 @@ function CharacterBio({ characters }) {
       </div>
       <div className="char-thumb">
         <div className='bio-item'>
-          <img src={`${characters.thumbnail.path}.${characters.thumbnail.extension}`} alt='' />
+          {characters.thumbnail && (
+            <img src={characters.thumbnail.extension ? 
+              `${characters.thumbnail.path}.${characters.thumbnail.extension}` : 
+              characters.thumbnail.path
+            } alt={characters.name} />
+          )}
         </div>
       </div>
       <div className="char-description">
@@ -24,7 +29,11 @@ function CharacterBio({ characters }) {
       </div>
       <div className="char-name">
         <h3 className='bio-item'>Wiki:</h3>
-        <a className='bio-item wiki-link' href={`${characters.urls[1].url}`} >Click Here</a>
+        {characters.urls && characters.urls.length > 1 ? (
+          <a className='bio-item wiki-link' href={`${characters.urls[1].url}`} >Click Here</a>
+        ) : (
+          <span className='bio-item'>N/A</span>
+        )}
       </div>
     </div>
   );
