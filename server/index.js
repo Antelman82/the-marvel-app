@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 
 // Comic Vine API configuration
 const COMIC_VINE_API = 'https://comicvine.gamespot.com/api';
-const COMIC_VINE_KEY = '12b21adb79c0e8d2e5e1fb4e5e5e5e5e';
+const COMIC_VINE_KEY = '6fe7599387c80558ca297dd3944580c79c282e36';
 
 // Character to Comic Vine ID mapping
 const CHARACTER_IDS = {
@@ -28,6 +28,18 @@ const CHARACTER_IDS = {
 app.use(cors());
 app.use(express.json());
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'Marvel API Server is running',
+    endpoints: {
+      health: '/api/health',
+      character: '/api/character/:name',
+      comic: '/api/comic/:id'
+    }
+  });
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'Server is running' });
@@ -40,33 +52,49 @@ app.get('/api/health', (req, res) => {
 app.get('/api/character/:name', async (req, res) => {
   try {
     const { name } = req.params;
-    const charId = CHARACTER_IDS[name.toLowerCase()];
+    // Normalize the name: convert spaces to hyphens and lowercase
+    const normalizedName = name.toLowerCase().replace(/\s+/g, '-');
+    const charId = CHARACTER_IDS[normalizedName];
+
+    console.log(`Received request for character: ${name}, normalized: ${normalizedName}, ID: ${charId}`);
 
     if (!charId) {
       return res.status(404).json({ error: `Character ${name} not found` });
     }
 
     try {
-      const response = await axios.get(`${COMIC_VINE_API}/character/${charId}`, {
+      // Use search endpoint instead of direct character ID
+      const response = await axios.get(`${COMIC_VINE_API}/search`, {
         params: {
           api_key: COMIC_VINE_KEY,
+          query: name,
+          resources: 'character',
           format: 'json',
-          field_list: 'image,name,deck,description'
+          limit: 1
         }
       });
 
-      const characterData = response.data.results;
+      // Search returns results as an array
+      const results = response.data.results;
+      if (!results || results.length === 0) {
+        throw new Error(`No results found for character: ${name}`);
+      }
 
-      // Transform to Marvel API format
+      const characterData = results[0];
+      const imageUrl = characterData.image?.medium_url || characterData.image?.small_url || 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available';
+      console.log(`✓ Comic Vine found character: ${characterData.name}, image: ${imageUrl.substring(0, 80)}...`);
+
+      // Send direct Comic Vine URL - browser may have different CORS policies
+      // If that fails, frontend can fallback to SVG placeholder
       const transformedData = {
         data: {
           data: {
             results: [{
               id: charId,
               name: characterData.name || name,
-              description: characterData.deck || characterData.description || `Marvel character: ${name}`,
+              description: characterData.deck || characterData.description || `Marvel character: ${characterData.name}`,
               thumbnail: {
-                path: characterData.image?.medium_url || 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available',
+                path: imageUrl,
                 extension: ''
               },
               comics: {
@@ -81,7 +109,11 @@ app.get('/api/character/:name', async (req, res) => {
       res.json(transformedData);
     } catch (apiError) {
       // Fallback to mock data if Comic Vine API fails
-      console.warn('Comic Vine API failed, using fallback mock data');
+      console.warn('Comic Vine API failed with error:', apiError.message);
+      if (apiError.response?.status) {
+        console.warn(`Status: ${apiError.response.status}, Data:`, apiError.response.data);
+      }
+      console.warn('Using fallback mock data for:', name);
       const mockCharacterMap = {
         'spider-man': 'Spider-Man',
         'iron man': 'Iron Man',
@@ -145,20 +177,31 @@ app.get('/api/comic/:id', async (req, res) => {
       '10': 'scarlet witch'
     };
 
-    const characterName = characterMap[String(id)] || 'spider-man';
-    const charId = CHARACTER_IDS[characterName.toLowerCase()];
-
+    const characterName = characterMap[String(id)] || id; // Also support passing character name directly
+    
     try {
-      const response = await axios.get(`${COMIC_VINE_API}/character/${charId}`, {
+      // Use search endpoint like the character endpoint
+      const response = await axios.get(`${COMIC_VINE_API}/search`, {
         params: {
           api_key: COMIC_VINE_KEY,
+          query: characterName,
+          resources: 'character',
           format: 'json',
-          field_list: 'image,name'
+          limit: 1
         }
       });
 
-      const characterData = response.data.results;
+      // Search returns results as an array
+      const results = response.data.results;
+      if (!results || results.length === 0) {
+        throw new Error(`No results found for character: ${characterName}`);
+      }
 
+      const characterData = results[0];
+      const imageUrl = characterData.image?.medium_url || characterData.image?.small_url || 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available';
+      console.log(`✓ Comic Vine found comic for ${characterName}: ${characterData.name}, image: ${imageUrl.substring(0, 80)}...`);
+
+      // Send direct Comic Vine URL to frontend
       const comicData = {
         data: {
           data: {
@@ -167,7 +210,7 @@ app.get('/api/comic/:id', async (req, res) => {
               title: characterData.name || characterName.charAt(0).toUpperCase() + characterName.slice(1).replace('-', ' '),
               description: `Marvel character: ${characterName}`,
               thumbnail: {
-                path: characterData.image?.medium_url || 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available',
+                path: imageUrl,
                 extension: ''
               }
             }]
@@ -213,6 +256,37 @@ app.get('/api/comic/:id', async (req, res) => {
   } catch (error) {
     console.error('Error fetching comic:', error.message);
     res.status(500).json({ error: 'Failed to fetch comic data' });
+  }
+});
+
+/**
+ * GET /api/proxy-image
+ * Proxy images from Comic Vine to avoid CORS issues
+ */
+app.get('/api/proxy-image', async (req, res) => {
+  try {
+    const { url } = req.query;
+    if (!url) {
+      return res.status(400).json({ error: 'URL parameter required' });
+    }
+
+    const response = await axios.get(url, { 
+      responseType: 'arraybuffer',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Referer': 'https://comicvine.gamespot.com/',
+        'Accept': 'image/*,*/*'
+      },
+      timeout: 10000
+    });
+    const contentType = response.headers['content-type'] || 'image/jpeg';
+    
+    res.set('Content-Type', contentType);
+    res.set('Cache-Control', 'public, max-age=86400'); // Cache for 1 day
+    res.send(response.data);
+  } catch (error) {
+    console.error('Image proxy error for URL:', req.query.url, 'Error:', error.message);
+    res.status(500).json({ error: 'Failed to proxy image' });
   }
 });
 

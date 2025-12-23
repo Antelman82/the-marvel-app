@@ -1,14 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { fetchComicAPI } from './api/realAPI';
 
 function Tile({ characters }) {
   const [tiles, setTiles] = useState([]);
-  const [bgImg] = useState('/images/tileback.jpeg');
-  const [previousPicked, setPreviousPicked] = useState(null);
-  const [previousBackgroundImg, setPreviousBackgroundImg] = useState('');
-  const [currentPicked, setCurrentPicked] = useState(null);
-  const [currentBackgroundImg, setCurrentBackgroundImg] = useState('');
-  const [counter, setCounter] = useState(0);
+  const bgImg = '/images/tileback.jpeg';
+  const [isLocked, setIsLocked] = useState(false);
+  
+  const firstTileRef = useRef(null);
+  const secondTileRef = useRef(null);
+
+  const createSVGFallback = (characterName) => {
+    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'];
+    const hash = characterName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const color = colors[hash % colors.length];
+    
+    return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='${encodeURIComponent(color)}' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' font-size='32' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='middle'%3E${encodeURIComponent(characterName)}%3C/text%3E%3C/svg%3E`;
+  };
+
+  const setBackgroundImageWithFallback = (element, imageUrl, characterName) => {
+    // Try to load the image with error handling
+    const img = new Image();
+    img.onerror = () => {
+      console.warn(`Failed to load image: ${imageUrl}, using SVG fallback for ${characterName}`);
+      const fallbackSvg = createSVGFallback(characterName);
+      element.style.backgroundImage = `url("${fallbackSvg}")`;
+    };
+    img.onload = () => {
+      element.style.backgroundImage = `url('${imageUrl}')`;
+    };
+    img.src = imageUrl;
+  };
 
   const doubleArray = (array) => {
     let tempArray = []
@@ -32,85 +53,98 @@ function Tile({ characters }) {
   }
 
   const handleClick = (currentTile) => {
-    console.log('Tile clicked:', currentTile.tileId, 'Counter:', counter)
-    setCounter(counter + 1)
-    let curTileClass = document.querySelector(`.${currentTile.tileId}`)
-    console.log('Tile element:', curTileClass);
+    // Prevent clicks while locked
+    if (isLocked) {
+      return;
+    }
     
+    // Prevent clicking the same tile twice
+    if (firstTileRef.current && document.querySelector(`.${currentTile.tileId}`) === firstTileRef.current) {
+      return;
+    }
+
+    let curTileClass = document.querySelector(`.${currentTile.tileId}`);
+    console.log('Tile clicked:', currentTile.tileId);
+
     fetchComicAPI(currentTile.currentBackgroundURI)
       .then(response => {
         const comic = response.data.data.results[0];
         let imageUrl = comic.thumbnail.path;
         const imageExtension = comic.thumbnail.extension;
-        
-        // Build complete image URL if extension is provided and not already in URL
+
         if (imageExtension && !imageUrl.endsWith(imageExtension)) {
           imageUrl = `${imageUrl}.${imageExtension}`;
         }
-        
+
         console.log('Comic data:', comic.title, 'Image URL:', imageUrl);
-        
-        currentTile.currentBackgroundImg = imageUrl;
-        
-        if (counter === 3) {
-          if (currentBackgroundImg === previousBackgroundImg) {
-            console.log('Match found!');
-            previousPicked.style.pointerEvents = `none`
-            curTileClass.style.pointerEvents = `none`
-            setCurrentPicked(null)
-            setPreviousPicked(null)
-            setCurrentBackgroundImg(null)
-            setPreviousBackgroundImg(null)
-            setCounter(0)
-          }
-          else {
-            console.log("No match, flipping back");
-            previousPicked.style.backgroundImage = `url('${bgImg}')`
-            previousPicked.style.border = '0px solid yellow'
-            curTileClass.style.backgroundImage = `url('${bgImg}')`
-            curTileClass.style.border = '0px solid yellow'
-            setCurrentPicked(null)
-            setPreviousPicked(null)
-            setCurrentBackgroundImg(null)
-            setPreviousBackgroundImg(null)
-            setCounter(0)
-          }
-        } else if (currentPicked === null && counter <= 2) {
-          console.log('First tile selected:', comic.title);
-          console.log('Setting background image on:', curTileClass);
-          // Data URLs should be used directly without url() wrapper
-          if (imageUrl.startsWith('data:')) {
-            curTileClass.style.backgroundImage = `url("${imageUrl}")`;
-          } else {
-            curTileClass.style.backgroundImage = `url('${imageUrl}')`;
-          }
-          curTileClass.style.backgroundSize = 'cover';
-          curTileClass.style.backgroundPosition = 'center';
-          curTileClass.style.border = '3px solid yellow';
-          setCurrentPicked(curTileClass)
-          setCurrentBackgroundImg(imageUrl)
+
+        // Display the image on the tile
+        if (imageUrl.startsWith('data:')) {
+          curTileClass.style.backgroundImage = `url("${imageUrl}")`;
+        } else {
+          setBackgroundImageWithFallback(curTileClass, imageUrl, comic.title);
         }
-        else if (currentPicked !== null && previousPicked === null && counter <= 2) {
+        curTileClass.style.backgroundSize = 'cover';
+        curTileClass.style.backgroundPosition = 'center';
+        curTileClass.style.border = '3px solid yellow';
+
+        // First tile selected
+        if (!firstTileRef.current) {
+          console.log('First tile selected:', comic.title);
+          firstTileRef.current = {
+            element: curTileClass,
+            uri: currentTile.currentBackgroundURI
+          };
+        }
+        // Second tile selected
+        else if (!secondTileRef.current) {
           console.log('Second tile selected:', comic.title);
-          // Data URLs should be used directly without url() wrapper
-          if (imageUrl.startsWith('data:')) {
-            curTileClass.style.backgroundImage = `url("${imageUrl}")`;
+          secondTileRef.current = {
+            element: curTileClass,
+            uri: currentTile.currentBackgroundURI
+          };
+
+          // Lock the board
+          setIsLocked(true);
+
+          // Check if tiles match
+          const match = firstTileRef.current.uri === secondTileRef.current.uri;
+          
+          if (match) {
+            console.log('Match found!');
+            firstTileRef.current.element.style.pointerEvents = 'none';
+            secondTileRef.current.element.style.pointerEvents = 'none';
+            
+            // Reset for next pair
+            setTimeout(() => {
+              console.log('Resetting after match');
+              firstTileRef.current = null;
+              secondTileRef.current = null;
+              setIsLocked(false);
+            }, 800);
           } else {
-            curTileClass.style.backgroundImage = `url('${imageUrl}')`;
+            console.log('No match, flipping back in 1 second');
+            
+            // Flip tiles back after delay
+            setTimeout(() => {
+              console.log('Flipping tiles back');
+              firstTileRef.current.element.style.backgroundImage = `url('${bgImg}')`;
+              firstTileRef.current.element.style.border = '0px';
+              secondTileRef.current.element.style.backgroundImage = `url('${bgImg}')`;
+              secondTileRef.current.element.style.border = '0px';
+              
+              // Reset refs and unlock
+              firstTileRef.current = null;
+              secondTileRef.current = null;
+              setIsLocked(false);
+            }, 1000);
           }
-          curTileClass.style.backgroundSize = 'cover';
-          curTileClass.style.backgroundPosition = 'center';
-          curTileClass.style.border = '3px solid yellow';
-          setCurrentPicked(curTileClass)
-          setCurrentBackgroundImg(imageUrl)
-          setPreviousPicked(currentPicked)
-          setPreviousBackgroundImg(currentBackgroundImg)
         }
       })
       .catch(error => {
-        console.error('Error fetching comic image:', error)
-      })
-  }
+        console.error('Error fetching comic image:', error);
+      });
+  };
 
   useEffect(() => {
     if (!characters || !characters.comics || !characters.comics.items) {
